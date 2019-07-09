@@ -57,12 +57,12 @@ function versioninfo()
     #println("SWResample version $(_swresample_version())")
 end
 
-function ffmpeg_env(commands...)
+function run(commands...)
     withenv(execenv) do
-        run(Cmd([commands...]))
+        Base.run(Cmd([commands...]))
     end
 end
 
-ffmpeg_run(commands...) = ffmpeg_env(ffmpeg, commands...)
+exe(commands...) = run(ffmpeg, commands...)
 
 end # module

@@ -63,6 +63,12 @@ function run(commands...)
     end
 end
 
+function pipeline(commands...)
+    withenv(execenv) do
+        Base.pipeline(commands...)
+    end
+end
+
 exe(commands...) = run(ffmpeg, commands...)
 
 end # module

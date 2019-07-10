@@ -63,9 +63,11 @@ function run(commands...)
     end
 end
 
-function pipeline(commands...)
-    withenv(execenv) do
-        Base.pipeline(commands...)
+macro ffmpeg(arg)
+    return quote
+        withenv(execenv) do
+            $arg
+        end
     end
 end
 

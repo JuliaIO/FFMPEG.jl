@@ -96,7 +96,7 @@ built with clang version 6.0.1 (tags/RELEASE_601/final)
 function exe(args::AbstractString...; command = FFMPEG.ffmpeg)
 
     withenv(execenv) do
-        Base.run(Cmd([command, commands...]))
+        Base.run(Cmd([command, args...]))
     end
 
 end

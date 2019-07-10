@@ -124,21 +124,21 @@ function exe(arg::Cmd; command = ffmpeg)
 end
 
 """
-    fmpeg(arg::Cmd)
-    fmpeg(args::String...)
+    ffmpeg_exe(arg::Cmd)
+    ffmpeg_exe(args::String...)
 
 Execute the given arguments as arguments to the `ffmpeg` executable.
 """
-fmpeg(args...) = exe(args...; command = ffmpeg)
+ffmpeg_exe(args...) = exe(args...; command = ffmpeg)
 
 """
-    fprobe(arg::Cmd)
-    fprobe(args::String...)
+    ffprobe_exe(arg::Cmd)
+    ffprobe_exe(args::String...)
 
 Execute the given arguments as arguments to the `ffprobe` executable.
 """
-fprobe(args...) = exe(args...; command = ffprobe)
+ffprobe_exe(args...) = exe(args...; command = ffprobe)
 
-export fmpeg, @ffmpeg, fprobe, ffmpeg
+export ffmpeg_exe, @ffmpeg, ffprobe_exe, ffmpeg, ffprobe
 
 end # module

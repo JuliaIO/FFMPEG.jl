@@ -57,12 +57,20 @@ function versioninfo()
     #println("SWResample version $(_swresample_version())")
 end
 
-function run(commands...)
-    withenv(execenv) do
-        Base.run(Cmd([commands...]))
-    end
-end
+"""
+    @ffmpeg arg
 
+Runs `arg` within the build environment of FFMPEG.
+
+## Examples
+
+```jldoctest
+julia> @ffmpeg run(`$ffmpeg -version`)
+ffmpeg version 4.1 Copyright (c) 2000-2018 the FFmpeg developers
+built with clang version 6.0.1 (tags/RELEASE_601/final)
+[...]
+```
+"""
 macro ffmpeg(arg)
     return quote
         withenv(execenv) do
@@ -71,6 +79,28 @@ macro ffmpeg(arg)
     end
 end
 
-exe(commands...) = run(ffmpeg, commands...)
+"""
+    exe(commands...)
+
+Execute the given commands as arguments to the `ffmpeg` executable.
+
+## Examples
+
+```jldoctest
+julia> FFMPEG.exe("-version")
+ffmpeg version 4.1 Copyright (c) 2000-2018 the FFmpeg developers
+built with clang version 6.0.1 (tags/RELEASE_601/final)
+[...]
+```
+"""
+function exe(commands::AbstractString...)
+
+    withenv(execenv) do
+        Base.run(Cmd([ffmpeg, commands...]))
+    end
+
+end
+
+export ffmpeg, @ffmpeg
 
 end # module

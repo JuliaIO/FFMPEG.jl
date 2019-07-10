@@ -8,9 +8,9 @@
 This package simply offers:
 
 ```julia
-# simple way to invoke ffmpeg:
+# a simple way to invoke ffmpeg:
 FFMPEG.exe("-version")
-FFMPEG.run(FFMPEG.ffmpeg, "-version")
+@ffmpeg run(`$ffmpeg -version`) # note the $ffmpeg
 # the AV libraries:
 FFMPEG.libavcodec
 FFMPEG.libavformat
@@ -19,10 +19,10 @@ FFMPEG.libswscale
 FFMPEG.libavdevice
 FFMPEG.libavfilter
 
-# and for good measures:
+# and for good measure:
 FFMPEG.versioninfo()
 ```
 
-For a high level API to the AV libraries have a look at [VideoIO](https://github.com/JuliaIO/VideoIO.jl/)
+For a high level API to the AV libraries in `libav`, have a look at [VideoIO.jl](https://github.com/JuliaIO/VideoIO.jl/).
 
-This package is aimed to be included into packages, that just need the ffmpeg binaries + executables, and don't want to take on the 3.6 second load time of VideoIO.
+This package is made to be included into packages that just need the ffmpeg binaries + executables, and don't want to take on the 3.6 second load time of VideoIO.

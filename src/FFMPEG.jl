@@ -58,20 +58,20 @@ function versioninfo()
 end
 
 """
-    @ffmpeg arg
+    @ffmpeg_env arg
 
 Runs `arg` within the build environment of FFMPEG.
 
 ## Examples
 
 ```jldoctest
-julia> @ffmpeg run(`$ffmpeg -version`)
+julia> @ffmpeg_env run(`$ffmpeg -version`)
 ffmpeg version 4.1 Copyright (c) 2000-2018 the FFmpeg developers
 built with clang version 6.0.1 (tags/RELEASE_601/final)
 [...]
 ```
 """
-macro ffmpeg(arg)
+macro ffmpeg_env(arg)
     return quote
         withenv(execenv) do
             $arg
@@ -139,6 +139,6 @@ Execute the given arguments as arguments to the `ffprobe` executable.
 """
 ffprobe_exe(args...) = exe(args...; command = ffprobe)
 
-export ffmpeg_exe, @ffmpeg, ffprobe_exe, ffmpeg, ffprobe
+export ffmpeg_exe, @ffmpeg_env, ffprobe_exe, ffmpeg, ffprobe
 
 end # module

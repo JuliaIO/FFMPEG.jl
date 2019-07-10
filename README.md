@@ -10,7 +10,10 @@ This package simply offers:
 ```julia
 # a simple way to invoke ffmpeg:
 FFMPEG.exe("-version")
-@ffmpeg run(`$ffmpeg -version`) # note the $ffmpeg
+@ffmpeg_env run(`$ffmpeg -version`) # note the $ffmpeg
+ffmpeg_exe("-version")
+ffmpeg_exe(`-version`)
+ffprobe_exe("-version") # we wrap FFPROBE too!
 # the AV libraries:
 FFMPEG.libavcodec
 FFMPEG.libavformat

@@ -80,9 +80,9 @@ macro ffmpeg(arg)
 end
 
 """
-    exe(commands...)
+    exe(args...)
 
-Execute the given commands as arguments to the `ffmpeg` executable.
+Execute the given commands as arguments to the given executable.
 
 ## Examples
 
@@ -93,14 +93,52 @@ built with clang version 6.0.1 (tags/RELEASE_601/final)
 [...]
 ```
 """
-function exe(commands::AbstractString...)
+function exe(args::AbstractString...; command = FFMPEG.ffmpeg)
 
     withenv(execenv) do
-        Base.run(Cmd([ffmpeg, commands...]))
+        Base.run(Cmd([command, commands...]))
     end
 
 end
 
-export ffmpeg, @ffmpeg
+"""
+    exe(arg)
+
+Execute the given command literal as an argument to the given executable.
+
+## Examples
+
+```jldoctest
+julia> FFMPEG.exe(``-version`)
+ffmpeg version 4.1 Copyright (c) 2000-2018 the FFmpeg developers
+built with clang version 6.0.1 (tags/RELEASE_601/final)
+[...]
+```
+"""
+function exe(arg::Cmd; command = ffmpeg)
+
+    withenv(execenv) do
+        Base.run(`$command $arg`)
+    end
+
+end
+
+"""
+    fmpeg(arg::Cmd)
+    fmpeg(args::String...)
+
+Execute the given arguments as arguments to the `ffmpeg` executable.
+"""
+fmpeg(args...) = exe(args...; command = ffmpeg)
+
+"""
+    fprobe(arg::Cmd)
+    fprobe(args::String...)
+
+Execute the given arguments as arguments to the `ffprobe` executable.
+"""
+fprobe(args...) = exe(args...; command = ffprobe)
+
+export fmpeg, @ffmpeg, fprobe
 
 end # module

@@ -57,12 +57,88 @@ function versioninfo()
     #println("SWResample version $(_swresample_version())")
 end
 
-function run(commands...)
-    withenv(execenv) do
-        Base.run(Cmd([commands...]))
+"""
+    @ffmpeg_env arg
+
+Runs `arg` within the build environment of FFMPEG.
+
+## Examples
+
+```jldoctest
+julia> @ffmpeg_env run(`$ffmpeg -version`)
+ffmpeg version 4.1 Copyright (c) 2000-2018 the FFmpeg developers
+built with clang version 6.0.1 (tags/RELEASE_601/final)
+[...]
+```
+"""
+macro ffmpeg_env(arg)
+    return quote
+        withenv(execenv) do
+            $arg
+        end
     end
 end
 
-exe(commands...) = run(ffmpeg, commands...)
+"""
+    exe(args...)
+
+Execute the given commands as arguments to the given executable.
+
+## Examples
+
+```jldoctest
+julia> FFMPEG.exe("-version")
+ffmpeg version 4.1 Copyright (c) 2000-2018 the FFmpeg developers
+built with clang version 6.0.1 (tags/RELEASE_601/final)
+[...]
+```
+"""
+function exe(args::AbstractString...; command = FFMPEG.ffmpeg)
+
+    withenv(execenv) do
+        Base.run(Cmd([command, args...]))
+    end
+
+end
+
+"""
+    exe(arg)
+
+Execute the given command literal as an argument to the given executable.
+
+## Examples
+
+```jldoctest
+julia> FFMPEG.exe(`-version`)
+ffmpeg version 4.1 Copyright (c) 2000-2018 the FFmpeg developers
+built with clang version 6.0.1 (tags/RELEASE_601/final)
+[...]
+```
+"""
+function exe(arg::Cmd; command = ffmpeg)
+
+    withenv(execenv) do
+        Base.run(`$command $arg`)
+    end
+
+end
+
+"""
+    ffmpeg_exe(arg::Cmd)
+    ffmpeg_exe(args::String...)
+
+Execute the given arguments as arguments to the `ffmpeg` executable.
+"""
+ffmpeg_exe(args...) = exe(args...; command = ffmpeg)
+
+"""
+    ffprobe_exe(arg::Cmd)
+    ffprobe_exe(args::String...)
+
+Execute the given arguments as arguments to the `ffprobe` executable.
+"""
+ffprobe_exe(args...) = exe(args...; command = ffprobe)
+
+export ffmpeg_exe, @ffmpeg_env, ffprobe_exe, ffmpeg, ffprobe
 
 end # module

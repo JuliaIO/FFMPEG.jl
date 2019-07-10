@@ -109,7 +109,7 @@ Execute the given command literal as an argument to the given executable.
 ## Examples
 
 ```jldoctest
-julia> FFMPEG.exe(``-version`)
+julia> FFMPEG.exe(`-version`)
 ffmpeg version 4.1 Copyright (c) 2000-2018 the FFmpeg developers
 built with clang version 6.0.1 (tags/RELEASE_601/final)
 [...]
@@ -139,6 +139,6 @@ Execute the given arguments as arguments to the `ffprobe` executable.
 """
 fprobe(args...) = exe(args...; command = ffprobe)
 
-export fmpeg, @ffmpeg, fprobe
+export fmpeg, @ffmpeg, fprobe, ffmpeg
 
 end # module

@@ -72,11 +72,11 @@ built with clang version 6.0.1 (tags/RELEASE_601/final)
 ```
 """
 macro ffmpeg_env(arg)
-    return quote
-        withenv(execenv) do
-            $arg
+    return esc(quote
+        withenv(FFMPEG.execenv) do
+            $(arg)
         end
-    end
+    end)
 end
 
 """

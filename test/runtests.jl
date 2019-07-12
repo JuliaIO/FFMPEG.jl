@@ -11,7 +11,7 @@ end
 
 @testset "FFMPEG.jl" begin
     @show FFMPEG.versioninfo()
-    @test text_execute(()-> FFMPEG.exe("-version"))
+    @test text_execute(() -> FFMPEG.exe("-version"))
     @test text_execute(() -> FFMPEG.exe(`-version`))
     @test text_execute(() -> FFMPEG.ffmpeg_exe(`-version`))
     @test text_execute(() -> FFMPEG.ffprobe_exe(`-version`))

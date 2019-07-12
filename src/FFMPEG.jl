@@ -5,7 +5,7 @@ using BinaryProvider
 const libpath = joinpath(@__DIR__, "..", "deps", "usr", "lib")
 
 if Sys.iswindows()
-    const execenv = ("PATH" => string(libpath,";", Sys.BINDIR))
+    const execenv = ("PATH" => string(libpath, ";", Sys.BINDIR))
 elseif Sys.isapple()
     const execenv = ("DYLD_LIBRARY_PATH" => libpath)
 else
@@ -23,7 +23,7 @@ end
 include(depsjl_path)
 
 
-av_version(v) = VersionNumber(v>>16,(v>>8)&0xff,v&0xff)
+av_version(v) = VersionNumber(v >> 16, (v >> 8) & 0xff, v & 0xff)
 
 have_avcodec()    = Libdl.dlopen_e(libavcodec)    != C_NULL
 have_avformat()   = Libdl.dlopen_e(libavformat)   != C_NULL

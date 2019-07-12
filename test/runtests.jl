@@ -15,7 +15,7 @@ end
     @test text_execute(() -> FFMPEG.exe(`-version`))
     @test text_execute(() -> FFMPEG.ffmpeg_exe(`-version`))
     @test text_execute(() -> FFMPEG.ffprobe_exe(`-version`))
-    @test text_execute(() -> ffmpeg`-version`
-    @test text_execute(() -> ffprobe`-version`
+    @test text_execute(() -> ffmpeg`-version`)
+    @test text_execute(() -> ffprobe`-version`)
     @test text_execute(() -> @ffmpeg_env run(`$ffmpeg -version`))
 end

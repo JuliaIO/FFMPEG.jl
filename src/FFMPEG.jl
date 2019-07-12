@@ -5,7 +5,7 @@ using BinaryProvider
 const libpath = joinpath(@__DIR__, "..", "deps", "usr", "lib")
 
 if Sys.iswindows()
-    const execenv = ("PATH" => string(libpath,";", Sys.BINDIR))
+    const execenv = ("PATH" => string(libpath, ";", Sys.BINDIR))
 elseif Sys.isapple()
     const execenv = ("DYLD_LIBRARY_PATH" => libpath)
 else
@@ -23,7 +23,7 @@ end
 include(depsjl_path)
 
 
-av_version(v) = VersionNumber(v>>16,(v>>8)&0xff,v&0xff)
+av_version(v) = VersionNumber(v >> 16, (v >> 8) & 0xff, v & 0xff)
 
 have_avcodec()    = Libdl.dlopen_e(libavcodec)    != C_NULL
 have_avformat()   = Libdl.dlopen_e(libavformat)   != C_NULL
@@ -139,6 +139,24 @@ Execute the given arguments as arguments to the `ffprobe` executable.
 """
 ffprobe_exe(args...) = exe(args...; command = ffprobe)
 
-export ffmpeg_exe, @ffmpeg_env, ffprobe_exe, ffmpeg, ffprobe
+"""
+    ffmpeg\`<ARGS>\`
+
+Execute the given arguments as arguments to the `ffmpeg` executable.
+"""
+macro ffmpeg_cmd(arg)
+    esc(:(ffmpeg_exe($arg)))
+end
+
+"""
+    ffprobe\`<ARGS>\`
+
+Execute the given arguments as arguments to the `ffprobe` executable.
+"""
+macro ffprobe_cmd(arg)
+    esc(:(ffprobe_exe($arg)))
+end
+
+export ffmpeg_exe, @ffmpeg_env, ffprobe_exe, ffmpeg, ffprobe, @ffmpeg_cmd, @ffprobe_cmd
 
 end # module

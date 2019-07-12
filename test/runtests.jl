@@ -13,6 +13,7 @@ end
     @show FFMPEG.versioninfo()
     @test text_execute(() -> FFMPEG.exe("-version"))
     @test text_execute(() -> FFMPEG.exe(`-version`))
+    @test text_execute(() -> FFMPEG.exe(`-version`, collect=true))
     @test text_execute(() -> FFMPEG.ffmpeg_exe(`-version`))
     @test text_execute(() -> FFMPEG.ffprobe_exe(`-version`))
     @test text_execute(() -> ffmpeg`-version`)

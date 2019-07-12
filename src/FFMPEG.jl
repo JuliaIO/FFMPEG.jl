@@ -43,8 +43,6 @@ _avfilter_version()   = have_avfilter()   ? av_version(ccall((:avfilter_version,
 #_avresample_version() = have_avresample() ? av_version(ccall((:avresample_version, libavresample), UInt32, ())) : v"0"
 #_swresample_version() = have_swresample() ? av_version(ccall((:swresample_version, libswresample), UInt32, ())) : v"0"
 
-#swresample_dir = joinpath(dirname(@__FILE__), "ffmpeg", "SWResample", "v$(_swresample_version().major)")
-
 function versioninfo()
     println("Using ffmpeg")
     println("AVCodecs version $(_avcodec_version())")
@@ -102,6 +100,19 @@ function exe(args::AbstractString...; command = FFMPEG.ffmpeg)
 end
 
 """
+    collectexecoutput(exec::Cmd) -> Array of output lines
+
+Takes the dominant output std from ffmpeg.
+"""
+function collectexecoutput(exec::Cmd)
+    out = Pipe(); err = Pipe()
+    p = Base.open(pipeline(ignorestatus(exec), stdout=out, stderr=err))
+    close(out.in); close(err.in)
+    err_s = readlines(err); out_s = readlines(out)
+    return (length(out_s) > length(err_s)) ? out_s : err_s
+end
+
+"""
     exe(arg)
 
 Execute the given command literal as an argument to the given executable.
@@ -115,12 +126,16 @@ built with clang version 6.0.1 (tags/RELEASE_601/final)
 [...]
 ```
 """
-function exe(arg::Cmd; command = ffmpeg)
-
-    withenv(execenv) do
-        Base.run(`$command $arg`)
+function exe(arg::Cmd; command = ffmpeg, collect = false)
+    if collect
+        withenv(execenv) do
+            collectexecoutput(`$command $arg`)
+        end
+    else
+        withenv(execenv) do
+            Base.run(`$command $arg`)
+        end
     end
-
 end
 
 """
@@ -157,6 +172,6 @@ macro ffprobe_cmd(arg)
     esc(:(ffprobe_exe($arg)))
 end
 
-export ffmpeg_exe, @ffmpeg_env, ffprobe_exe, ffmpeg, ffprobe, @ffmpeg_cmd, @ffprobe_cmd
+export ffmpeg_exe, @ffmpeg_env, ffprobe_exe, ffmpeg, ffprobe, @ffmpeg_cmd, @ffprobe_cmd, libavcodec, libavformat, libavutil, libswscale, libavfilter, libavdevice
 
 end # module

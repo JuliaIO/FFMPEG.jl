@@ -91,13 +91,8 @@ built with clang version 6.0.1 (tags/RELEASE_601/final)
 [...]
 ```
 """
-function exe(args::AbstractString...; command = FFMPEG.ffmpeg)
+exe(args::AbstractString...; command = FFMPEG.ffmpeg, collect = false) = exe(Cmd([command, args...]), command = FFMPEG.ffmpeg, collect = false)
 
-    withenv(execenv) do
-        Base.run(Cmd([command, args...]))
-    end
-
-end
 
 """
     collectexecoutput(exec::Cmd) -> Array of output lines

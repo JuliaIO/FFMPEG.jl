@@ -14,6 +14,8 @@ FFMPEG.exe("-version")
 ffmpeg_exe("-version")
 ffmpeg_exe(`-version`)
 ffprobe_exe("-version") # we wrap FFPROBE too!
+ffmpeg`-version` # Cmd string macros too
+ffprobe`-version`
 # the AV libraries:
 FFMPEG.libavcodec
 FFMPEG.libavformat

@@ -139,6 +139,24 @@ Execute the given arguments as arguments to the `ffprobe` executable.
 """
 ffprobe_exe(args...) = exe(args...; command = ffprobe)
 
-export ffmpeg_exe, @ffmpeg_env, ffprobe_exe, ffmpeg, ffprobe
+"""
+    ffmpeg\`<ARGS>\`
+
+Execute the given arguments as arguments to the `ffmpeg` executable.
+"""
+macro ffmpeg_cmd(arg)
+    esc(:(ffmpeg_exe(arg)))
+end
+
+"""
+    ffprobe\`<ARGS>\`
+
+Execute the given arguments as arguments to the `ffprobe` executable.
+"""
+macro ffprobe_cmd(arg)
+    esc(:(ffprobe_exe(arg)))
+end
+
+export ffmpeg_exe, @ffmpeg_env, ffprobe_exe, ffmpeg, ffprobe, @ffmpeg_cmd, @ffprobe_cmd
 
 end # module

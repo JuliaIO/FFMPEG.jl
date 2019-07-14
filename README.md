@@ -10,13 +10,20 @@ This package simply offers:
 ```julia
 # a simple way to invoke ffmpeg:
 FFMPEG.exe("-version")
-@ffmpeg_env run(`$ffmpeg -version`) # note the $ffmpeg
-ffmpeg_exe("-version")
-ffmpeg_exe(`-version`)
+FFMPEG.exe("-version", collect=true) #collect output lines into an array of strings
+FFMPEG.exe("-version", command=FFMPEG.ffprobe, collect=true) #collect ffprobe output lines into an array of strings (defaults to ffmpeg)
+
+@ffmpeg_env run(`$(FFMPEG.ffmpeg) -version`) #Manually sets up the shared lib environment location. Note the $(FFMPEG.ffmpeg)
+
+ffmpeg_exe("-version") #takes strings
+ffmpeg_exe(`-version`) #or command strings
+
 ffprobe_exe("-version") # we wrap FFPROBE too!
+
 ffmpeg`-version` # Cmd string macros too
 ffprobe`-version`
-# the AV libraries:
+
+# the AV libraries (exported too):
 FFMPEG.libavcodec
 FFMPEG.libavformat
 FFMPEG.libavutil

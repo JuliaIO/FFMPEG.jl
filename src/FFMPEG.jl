@@ -91,7 +91,7 @@ built with clang version 6.0.1 (tags/RELEASE_601/final)
 [...]
 ```
 """
-exe(args::AbstractString...; command = FFMPEG.ffmpeg, collect = false) = exe(Cmd([command, args...]), command=command, collect=collect)
+exe(args::AbstractString...; command = FFMPEG.ffmpeg, collect = false) = exe(Cmd([args...]), command=command, collect=collect)
 
 
 """

@@ -10,7 +10,16 @@ catch e
 end
 
 @testset "FFMPEG.jl" begin
-    @show FFMPEG.versioninfo()
+    FFMPEG.versioninfo()
+    
+    # Test run and parse output
+    out = FFMPEG.exe(`-version`, collect=true)
+    @test occursin("ffmpeg version ",out[1])
+    
+    out = FFMPEG.exe(`-version`, command=FFMPEG.ffprobe, collect=true)
+    @test occursin("ffprobe version ",out[1])
+    
+    # Test different invokation methods
     @test text_execute(() -> FFMPEG.exe("-version"))
     @test text_execute(() -> FFMPEG.exe(`-version`))
     @test text_execute(() -> FFMPEG.exe(`-version`, collect=true))

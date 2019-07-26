@@ -1,7 +1,5 @@
 module FFMPEG
 
-using BinaryProvider
-
 const libpath = joinpath(@__DIR__, "..", "deps", "usr", "lib")
 
 if Sys.iswindows()
@@ -21,7 +19,6 @@ if !isfile(depsjl_path)
 end
 
 include(depsjl_path)
-
 
 av_version(v) = VersionNumber(v >> 16, (v >> 8) & 0xff, v & 0xff)
 

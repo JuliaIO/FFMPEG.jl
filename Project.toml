@@ -1,7 +1,7 @@
 name = "FFMPEG"
 uuid = "c87230d0-a227-11e9-1b43-d7ebe4e7570a"
 authors = ["SimonDanisch <sdanisch@gmail.com>"]
-version = "0.2.1"
+version = "0.2.2"
 
 [deps]
 BinaryProvider = "b99e7846-7c00-51b0-8f62-c81ae34c0232"

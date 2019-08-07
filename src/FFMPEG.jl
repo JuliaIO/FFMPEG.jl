@@ -60,7 +60,7 @@ Runs `arg` within the build environment of FFMPEG.
 ## Examples
 
 ```jldoctest
-julia> @ffmpeg_env run(`$ffmpeg -version`)
+julia> @ffmpeg_env run(`\$ffmpeg -version`)
 ffmpeg version 4.1 Copyright (c) 2000-2018 the FFmpeg developers
 built with clang version 6.0.1 (tags/RELEASE_601/final)
 [...]

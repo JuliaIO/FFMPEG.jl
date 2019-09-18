@@ -43,7 +43,7 @@ dependencies = [
 
 for dependency in dependencies
     file = joinpath(@__DIR__, basename(dependency))
-    isfile(file) || download(dependency, file)
+    isfile(file) || BinaryProvider.download(dependency, file)
     # it's a bit faster to run the build in an anonymous module instead of
     # starting a new julia process
 

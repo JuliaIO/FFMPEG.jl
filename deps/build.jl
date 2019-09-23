@@ -11,12 +11,12 @@ products = Product[
     ExecutableProduct(prefix, "x264", :x264),
     ExecutableProduct(prefix, "x265", :x265),
 
-    LibraryProduct(prefix, ["libavcodec","avcodec"], :libavcodec),
-    LibraryProduct(prefix, ["libavformat","avformat"], :libavformat),
-    LibraryProduct(prefix, ["libavutil","avutil"], :libavutil),
-    LibraryProduct(prefix, ["libswscale","swscale"], :libswscale),
-    LibraryProduct(prefix, ["libavfilter","avfilter"], :libavfilter),
-    LibraryProduct(prefix, ["libavdevice","avdevice"], :libavdevice),
+    LibraryProduct(prefix, ["libavcodec","avcodec", "avcodec-58"], :libavcodec),
+    LibraryProduct(prefix, ["libavformat","avformat", "avformat-58"], :libavformat),
+    LibraryProduct(prefix, ["libavutil","avutil", "avutil-56"], :libavutil),
+    LibraryProduct(prefix, ["libswscale","swscale", "swscale-5"], :libswscale),
+    LibraryProduct(prefix, ["libavfilter","avfilter", "avfilter-7"], :libavfilter),
+    LibraryProduct(prefix, ["libavdevice","avdevice", "avdevice-58"], :libavdevice),
 ]
 
 dependencies = [

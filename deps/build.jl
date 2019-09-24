@@ -40,6 +40,15 @@ dependencies = [
     "https://github.com/JuliaIO/FFMPEGBuilder/releases/download/v4.1.1/build_FFMPEG.v4.1.0.jl"
 ]
 
+if Sys.iswindows()
+    path = joinpath(@__DIR__, "windows_bin")
+    bin = joinpath(@__DIR__, "usr", "bin")
+    isdir(bin) || mkpath(bin)
+    for f in readdir(path)
+        @show f
+        cp(joinpath(path, f), joinpath(bin, f))
+    end
+end
 
 for dependency in dependencies
     file = joinpath(@__DIR__, basename(dependency))
@@ -52,12 +61,7 @@ for dependency in dependencies
     Mod.include(file)
 end
 
-if Sys.iswindows()
-    path = joinpath(@__DIR__, "windows_bin")
-    for f in readdir(path)
-        cp(joinpath(path, f), joinpath(@__DIR__, "usr", "bin", f))
-    end
-end
+
 
 
 # Finally, write out a deps.jl file

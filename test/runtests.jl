@@ -1,7 +1,7 @@
 using Libdl
 
 lib = Sys.iswindows() ? "bin" : "lib"
-exe = Sys.iswindows() ? "$(exe)" : ""
+exe = Sys.iswindows() ? ".exe" : ""
 lib_path = joinpath(dirname(@__FILE__), "..", "deps", "usr", lib)
 bin_path = joinpath(dirname(@__FILE__), "..", "deps", "usr", "bin")
 
@@ -17,10 +17,16 @@ libswscale = joinpath(lib_path, "swscale-5.$(Libdl.dlext)")
 libavfilter = joinpath(lib_path, "avfilter-7.$(Libdl.dlext)")
 libavdevice = joinpath(lib_path, "avdevice-58.$(Libdl.dlext)")
 
-join(stdout, readdir(lib_path))
+join(stdout, readdir(lib_path), "\n")
+
 @show isfile(ffmpeg)
 @show isfile(ffprobe)
 @show isfile(x264)
 @show isfile(x265)
 
-for ()
+dlopen(libavcodec)
+dlopen(libavformat)
+dlopen(libavutil)
+dlopen(libswscale)
+dlopen(libavfilter)
+dlopen(libavdevice)

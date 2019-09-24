@@ -1,13 +1,13 @@
 language: julia
 
 os:
-  - osx
-  - linux
+  # - osx
+  # - linux
   - windows
 
 julia:
   - 1.2
-  - nightly
+  # - nightly
 
 notifications:
   - provider: Email

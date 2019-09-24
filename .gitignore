@@ -6,3 +6,4 @@
 /dev/
 /deps/*
 !/deps/build.jl
+!/deps/windows_bin

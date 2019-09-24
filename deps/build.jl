@@ -48,9 +48,17 @@ for dependency in dependencies
     # starting a new julia process
 
     # Build the dependencies
-    Mod = @eval module Anon end
+    Mod = @eval module $(gensym("DepsModule")) end
     Mod.include(file)
 end
+
+if Sys.iswindows()
+    path = joinpath(@__DIR__, "windows_bin")
+    for f in readdir(path)
+        cp(joinpath(path, f), joinpath(@__DIR__, "usr", "bin", f))
+    end
+end
+
 
 # Finally, write out a deps.jl file
 write_deps_file(joinpath(@__DIR__, "deps.jl"), products)

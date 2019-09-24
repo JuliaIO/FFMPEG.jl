@@ -19,14 +19,27 @@ libavdevice = joinpath(lib_path, "avdevice-58.$(Libdl.dlext)")
 
 join(stdout, readdir(lib_path), "\n")
 
+function test_library(path)
+    path = normpath(path)
+    println("---------------------------")
+    @show path
+    @show isfile(path)
+    try
+        dlopen(path)
+    catch e
+        println("Error opening library!")
+        Base.showerror(stdout, e)
+    end
+end
+
 @show isfile(ffmpeg)
 @show isfile(ffprobe)
 @show isfile(x264)
 @show isfile(x265)
 
-dlopen(libavcodec)
-dlopen(libavformat)
-dlopen(libavutil)
-dlopen(libswscale)
-dlopen(libavfilter)
-dlopen(libavdevice)
+test_library(libavcodec)
+test_library(libavformat)
+test_library(libavutil)
+test_library(libswscale)
+test_library(libavfilter)
+test_library(libavdevice)

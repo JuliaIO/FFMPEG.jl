@@ -2,12 +2,17 @@ module FFMPEG
 
 const libpath = joinpath(@__DIR__, "..", "deps", "usr", "lib")
 
+# Libraries provided by Julia can be in two different places, we have to add
+# both of them to `LD_LIBRARY_PATH`
+const libdir1 = joinpath(Sys.BINDIR, Base.LIBDIR, "julia")
+const libdir2 = joinpath(Sys.BINDIR, Base.LIBDIR)
+
 if Sys.iswindows()
-    const execenv = ("PATH" => string(libpath, ";", Sys.BINDIR))
+    const execenv = ("PATH" => string(libdir1, ";", libdir2, ";", libpath, ";", Sys.BINDIR))
 elseif Sys.isapple()
-    const execenv = ("DYLD_LIBRARY_PATH" => libpath)
+    const execenv = ("DYLD_LIBRARY_PATH" => string(libdir1, ":", libdir2, ":", libpath))
 else
-    const execenv = ("LD_LIBRARY_PATH" => libpath)
+    const execenv = ("LD_LIBRARY_PATH" => string(libdir1, ":", libdir2, ":", libpath))
 end
 
 

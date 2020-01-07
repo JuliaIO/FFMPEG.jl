@@ -102,7 +102,7 @@ Takes the dominant output std from ffmpeg.
 """
 function collectexecoutput(exec::Cmd)
     out_s, err_s = readexecoutput(exec)
-    return (length(out_s) > length(err_s))? out_s : err_s
+    return (length(out_s) > length(err_s)) ? out_s : err_s
 end
 
 """

@@ -95,18 +95,29 @@ built with clang version 6.0.1 (tags/RELEASE_601/final)
 """
 exe(args::AbstractString...; command = FFMPEG.ffmpeg, collect = false) = exe(Cmd([args...]), command=command, collect=collect)
 
-
 """
     collectexecoutput(exec::Cmd) -> Array of output lines
 
 Takes the dominant output std from ffmpeg.
 """
 function collectexecoutput(exec::Cmd)
+    out_s, err_s = readexecoutput(exec)
+    return (length(out_s) > length(err_s)) ? out_s : err_s
+end
+
+"""
+    readexecoutput(exec::Cmd) -> (out, err)
+
+Takes the output stdout and stderr from the input command.  
+
+Returns a Tuple of String vectors.
+"""
+function readexecoutput(exec::Cmd)
     out = Pipe(); err = Pipe()
     p = Base.open(pipeline(ignorestatus(exec), stdout=out, stderr=err))
     close(out.in); close(err.in)
     err_s = readlines(err); out_s = readlines(out)
-    return (length(out_s) > length(err_s)) ? out_s : err_s
+    return out_s, err_s
 end
 
 """

@@ -116,6 +116,8 @@ function exe(arg::Cmd; command = ffmpeg, collect = false)
     end
 end
 
+exe(arg::String; kwargs...) = exe(Cmd([arg]); kwargs...)
+
 """
     ffmpeg_exe(arg::Cmd)
     ffmpeg_exe(args::String...)

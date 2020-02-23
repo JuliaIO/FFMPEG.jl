@@ -1,29 +1,8 @@
 module FFMPEG
 
-const libpath = joinpath(@__DIR__, "..", "deps", "usr", "lib")
+using Reexport, Libdl
 
-# Libraries provided by Julia can be in two different places, we have to add
-# both of them to `LD_LIBRARY_PATH`
-const libdir1 = joinpath(Sys.BINDIR, Base.LIBDIR, "julia")
-const libdir2 = joinpath(Sys.BINDIR, Base.LIBDIR)
-
-if Sys.iswindows()
-    const execenv = ("PATH" => string(libdir1, ";", libdir2, ";", libpath, ";", Sys.BINDIR))
-elseif Sys.isapple()
-    const execenv = ("DYLD_LIBRARY_PATH" => string(libdir1, ":", libdir2, ":", libpath))
-else
-    const execenv = ("LD_LIBRARY_PATH" => string(libdir1, ":", libdir2, ":", libpath))
-end
-
-
-# Load in `deps.jl`, complaining if it does not exist
-const depsjl_path = joinpath(@__DIR__, "..", "deps", "deps.jl")
-if !isfile(depsjl_path)
-    println("Deps path: $depsjl_path")
-    error("FFMPEG not installed properly, run `] build FFMPEG`, restart Julia and try again")
-end
-
-include(depsjl_path)
+@reexport using FFMPEG_jll
 
 av_version(v) = VersionNumber(v >> 16, (v >> 8) & 0xff, v & 0xff)
 
@@ -58,47 +37,9 @@ function versioninfo()
 end
 
 """
-    @ffmpeg_env arg
-
-Runs `arg` within the build environment of FFMPEG.
-
-## Examples
-
-```jldoctest
-julia> @ffmpeg_env run(`\$ffmpeg -version`)
-ffmpeg version 4.1 Copyright (c) 2000-2018 the FFmpeg developers
-built with clang version 6.0.1 (tags/RELEASE_601/final)
-[...]
-```
-"""
-macro ffmpeg_env(arg)
-    return esc(quote
-        withenv(FFMPEG.execenv) do
-            $(arg)
-        end
-    end)
-end
-
-"""
-    exe(args...)
-
-Execute the given commands as arguments to the given executable.
-
-## Examples
-
-```jldoctest
-julia> FFMPEG.exe("-version")
-ffmpeg version 4.1 Copyright (c) 2000-2018 the FFmpeg developers
-built with clang version 6.0.1 (tags/RELEASE_601/final)
-[...]
-```
-"""
-exe(args::AbstractString...; command = FFMPEG.ffmpeg, collect = false) = exe(Cmd([args...]), command=command, collect=collect)
-
-"""
     collectexecoutput(exec::Cmd) -> Array of output lines
 
-Takes the dominant output std from ffmpeg.
+Takes the dominant output (stdout or stderr) from ffmpeg.
 """
 function collectexecoutput(exec::Cmd)
     out_s, err_s = readexecoutput(exec)
@@ -108,7 +49,7 @@ end
 """
     readexecoutput(exec::Cmd) -> (out, err)
 
-Takes the output stdout and stderr from the input command.  
+Takes the output stdout and stderr from the input command.
 
 Returns a Tuple of String vectors.
 """
@@ -136,15 +77,17 @@ built with clang version 6.0.1 (tags/RELEASE_601/final)
 """
 function exe(arg::Cmd; command = ffmpeg, collect = false)
     if collect
-        withenv(execenv) do
+        command() do command
             collectexecoutput(`$command $arg`)
         end
     else
-        withenv(execenv) do
+        command() do command
             Base.run(`$command $arg`)
         end
     end
 end
+
+exe(arg::String; kwargs...) = exe(Cmd([arg]); kwargs...)
 
 """
     ffmpeg_exe(arg::Cmd)
@@ -180,6 +123,6 @@ macro ffprobe_cmd(arg)
     esc(:(ffprobe_exe($arg)))
 end
 
-export ffmpeg_exe, @ffmpeg_env, ffprobe_exe, ffmpeg, ffprobe, @ffmpeg_cmd, @ffprobe_cmd, libavcodec, libavformat, libavutil, libswscale, libavfilter, libavdevice
+export exe, ffmpeg_exe, ffprobe_exe, @ffmpeg_cmd, @ffprobe_cmd, ffmpeg, ffprobe, libavcodec, libavformat, libavutil, libswscale, libavfilter, libavdevice
 
 end # module

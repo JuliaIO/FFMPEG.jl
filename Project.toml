@@ -5,6 +5,7 @@ version = "0.3.0"
 
 [deps]
 FFMPEG_jll = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+x264_jll = "1270edf5-f2f9-52d2-97e9-ab00b5d0237a"
 
 [compat]
 FFMPEG_jll = "4.1.0"

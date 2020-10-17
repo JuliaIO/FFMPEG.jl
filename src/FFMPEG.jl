@@ -1,8 +1,6 @@
 module FFMPEG
 
 using FFMPEG_jll
-import FFMPEG_jll: ffmpeg_path, ffprobe_path
-
 
 av_version(v) = VersionNumber(v >> 16, (v >> 8) & 0xff, v & 0xff)
 

@@ -1,13 +1,13 @@
 name = "FFMPEG"
 uuid = "c87230d0-a227-11e9-1b43-d7ebe4e7570a"
 authors = ["SimonDanisch <sdanisch@gmail.com>"]
-version = "0.4.1"
+version = "0.4.2"
 
 [deps]
 FFMPEG_jll = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
 
 [compat]
-FFMPEG_jll = "4.3.1"
+FFMPEG_jll = "^4.3.1"
 julia = "^1.3"
 
 [extras]

@@ -12,7 +12,7 @@ arch:
   - x86
   - arm64
 julia:
-  - 1.5
+  - 1.6
   - 1
   - nightly
 matrix:

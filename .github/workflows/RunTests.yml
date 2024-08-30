@@ -19,5 +19,5 @@ jobs:
       - uses: julia-actions/setup-julia@latest
         with:
           version: ${{ matrix.julia-version }}
-      - julia-actions/cache@v2
+      - uses: julia-actions/cache@v2
       - uses: julia-actions/julia-runtest@master

@@ -10,7 +10,6 @@ _avutil_version()     = av_version(ccall((:avutil_version,     libavutil),     U
 _swscale_version()    = av_version(ccall((:swscale_version,    libswscale),    UInt32, ()))
 _avdevice_version()   = av_version(ccall((:avdevice_version,   libavdevice),   UInt32, ()))
 _avfilter_version()   = av_version(ccall((:avfilter_version,   libavfilter),   UInt32, ()))
-_avresample_version() = av_version(ccall((:avresample_version, libavresample), UInt32, ()))
 _swresample_version() = av_version(ccall((:swresample_version, libswresample), UInt32, ()))
 
 function versioninfo()
@@ -21,7 +20,6 @@ function versioninfo()
     println("SWScale version $(_swscale_version())")
     println("AVDevice version $(_avdevice_version())")
     println("AVFilters version $(_avfilter_version())")
-    println("AVResample version $(_avresample_version())")
     println("SWResample version $(_swresample_version())")
 end
 

@@ -7,7 +7,7 @@ version = "0.4.3"
 FFMPEG_jll = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
 
 [compat]
-FFMPEG_jll = "4.3.1, 6.1.1"
+FFMPEG_jll = "4.3.1, 6.1.1, 7.1.1"
 julia = "1.6"
 
 [extras]
